@@ -1,12 +1,37 @@
-# React + Vite
+Store and optimize image and video -> Imagekit.io
+1. For multiple page and navigate across them , we use react-router-dom
+2. Created folder structure and NAVbar.jsx.
+3. Wrote code in navbar.jsx for for the navbar
+5. Created the Nav bar logic to hide it in ownere page 
+6. create all the pages inside pages folder.
+ - Cars.jsx
+ - CarDetails.jsx
+ - MyBookings.jsx
+ - Home.jsx
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+7. Now add Paths in app.jsx for the following created above
+8. Now we will prepare Home Page and for that we need -
+  - Hero component, FeaturedSelection,Banner.jsx , UserReview part newsletter part and all
 
-Currently, two official plugins are available:
+9.  we have created CarCard then used it in the FeaturedSection part , where we map it , and as Title is used many where like we will use it lots of time so created a separete title over there
+10. now the featuedSelection we mounted on the Home section we got the cars deisplayed ther e,
+ - Now we add the navigate / click function - whenever we click on the car it will redirect us to the carDetials
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+11. Now we Created the 3rd part of the Home page - Banner.jsx
 
-## Expanding the ESLint configuration
+- Using Prebuilt AI :-
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+12. Now for the 4th part we are building the user review -> Testimonial part and all
+13. Now it comes to 5th part -> Newsletter part
+16. Now for the 6th and last part we add -> Footer.jsx in the app.jsx .
+17. Then we Created the CarDeatils.jsx part.
+18. Then we Created the Cars.jsx part were all the cars are listed.
+19. Then we Created the MyBookings.jsx part.
+20. Then Moving on to the Dashboard :-
+    - We Created the /pages/Owner
+       - And 5 files
+       - AddCar, Dashboard, Layout, ManageBookings, ManageCar
+    - Then we Created the /Components/Owner
+       - We Created 3 files over there
+       - NavbarOwner, OTitle, Sidebar
+
