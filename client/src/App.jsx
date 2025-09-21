@@ -24,7 +24,7 @@ const App = () => {
 
         <Route path='/cars' element={<Cars />} />
         <Route path='/car-details/:id' element={<CarDetails />} />
-        <Route path='/mybookings' element={<MyBookings />} />
+        <Route path='/my-bookings' element={<MyBookings />} />
         
         <Route path='/owner' element={<div>Owner Dashboard</div>} />
         <Route path='/owner/addcar' element={<div>Add Car</div>} />

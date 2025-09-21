@@ -11,6 +11,13 @@ const CarDetails = () => {
   const [car,setCar] = useState(null);
   const currency = import.meta.env.VITE_CURRENCY;
 
+  // To handle the form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Booking Successful");
+    navigate('/mybookings');
+  }
+
 
 
   // we have to get car datat and we have it in Assessts file so we will import it here and then we will filter the car which matches the id from the url and then we will set that car to the state variable
@@ -84,7 +91,30 @@ const CarDetails = () => {
       </div>
 
       {/* Right Booking form */}
-      <form></form>
+      <form onSubmit={handleSubmit}  className=' shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500 ' >
+        <p className=' flex items-center justify-between text-2xl text-gray-500 font-semibold ' > {currency} {car.pricePerDay}
+           <span className=' text-base text-gray-400 font-normal ' >per day</span> </p>
+
+        <hr className=' border-borderColor my-6' />
+
+        <div className=' flex flex-col gap-2 ' >
+          <label htmlFor="pickup-date">Pickup Date</label>
+          {/* the min is today's date */}
+          <input type="date" id="pickup-date" className=' border border-borderColor px-3 py-2 rounded-lg w-full ' required min={new Date().toISOString().split("T")[0]} /> 
+        </div>
+
+        <div className=' flex flex-col gap-2 ' >
+          <label htmlFor="return-date">Return Date</label>
+          {/* the min is today's date */}
+          <input type="date" id="return-date" className=' border border-borderColor px-3 py-2 rounded-lg w-full ' required  /> 
+        </div>
+
+        <button className= 'w-full bg-primary hover:bg-primary-dull transition-all py-3 font-medium text-white rounded-xl cursor-pointer' > 
+          Book Now
+        </button>
+
+        <p className=' text-center text-sm ' > No Credit Card required to reserve </p>
+      </form>
 
     </div> 
   </div>

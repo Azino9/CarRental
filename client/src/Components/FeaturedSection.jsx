@@ -22,9 +22,12 @@ const FeaturedSection = () => {
             {
                 // it will display all cars in the home screen , so we should set Limit
                 dummyCarData.slice(0,6).map((car) => (
-                    <div key={car._id} >
-                        <CarCard car={car} />
-                    </div>
+                     <div key={car._id} className="relative">
+                         <CarCard car={car} />
+                         <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-md font-medium">
+                             Available Now
+                         </div>
+                     </div>
                 ))
             }
         </div>
