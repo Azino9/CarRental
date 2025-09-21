@@ -6,6 +6,11 @@ import CarDetails from './pages/CarDetails';
 import Cars from './pages/Cars';
 import MyBookings from './pages/MyBookings';
 import Footer from './Components/Footer';
+import Dashboard from './pages/Owner/Dashboard';
+import Layout from './pages/Owner/Layout';
+import AddCar from './pages/Owner/AddCar';
+import ManageCar from './pages/Owner/ManageCar';
+import ManageBooking from './pages/Owner/ManageBooking';
 
 const App = () => {
 
@@ -26,10 +31,13 @@ const App = () => {
         <Route path='/car-details/:id' element={<CarDetails />} />
         <Route path='/my-bookings' element={<MyBookings />} />
         
-        <Route path='/owner' element={<div>Owner Dashboard</div>} />
-        <Route path='/owner/addcar' element={<div>Add Car</div>} />
-        <Route path='/owner/bookings' element={<div>Owner Bookings</div>} />
-        <Route path='*' element={<div>404 Not Found</div>} />
+        {/* Owner Dashboard routes */}
+        <Route path='/owner' element={<Layout />} >
+          <Route index element={<Dashboard />} />
+          <Route path='add-car' element={<AddCar />} />
+          <Route path='manage-cars' element={<ManageCar />} />
+          <Route path='manage-bookings' element={<ManageBooking />} />
+        </Route>
       </Routes>
 
       {/* we have to mount the footer in all the pages so we are mounting it outside the all, but we have to hide it in the admin dashboard */}
