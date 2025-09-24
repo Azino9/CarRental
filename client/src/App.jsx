@@ -11,14 +11,19 @@ import Layout from './pages/Owner/Layout';
 import AddCar from './pages/Owner/AddCar';
 import ManageCar from './pages/Owner/ManageCar';
 import ManageBooking from './pages/Owner/ManageBooking';
+import Login from './Components/Login';
 
 const App = () => {
 
   {/* in the Navbar here we should pass the props as we are destructureing the props in the Navbar -> setShowLogin so we have to pass it here */}
   const [showLogin, setShowLogin] = useState(false);
   const isOwnerPath = useLocation().pathname.startsWith('/owner');
+  
   return (
     <>
+      {/* This login form will be displayed whenever this setShow Login is asked So, */}
+
+      {showLogin && <Login setShowLogin={setShowLogin} />}
 
     {/* this Navbar wew have mounted here at the top so that we want this in every page , but we need to hide it whenever it is in the owners dashboard so for that
     -> we will identify the path and according to that we will hide the Navbar */}

@@ -34,4 +34,11 @@ Store and optimize image and video -> Imagekit.io
     - Then we Created the /Components/Owner
        - We Created 3 files over there
        - NavbarOwner, OTitle, Sidebar
+21. Then we Wrote the code for all the mini pages created above , and the Completed the whole Owner section in the pages
+ After Creating small owner Navbar sidebar all in the components/owner part.
+22. Then we Created the Login from the prebuilt.ui 
+23. Now Moving to the Server -> Backend part 
+         - Remaining code in the Server folder .
+
+### ----------------------------------------  BACKEND STARTS -----------------------------------------
 

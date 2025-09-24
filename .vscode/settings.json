@@ -1,0 +1,5 @@
+{
+  // Ignore unknown CSS at-rules like @theme from Tailwind CSS v4
+  // This prevents VS Code from showing errors for valid Tailwind v4 syntax
+  "css.lint.unknownAtRules": "ignore"
+}
