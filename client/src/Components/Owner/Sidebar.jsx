@@ -47,7 +47,7 @@ const Sidebar = () => {
 
         <div className=' group relative ' >
         <label htmlFor="image">
-            <img src={image ? URL.createObjectURL(image) : user?.image || "https://images.unsplash.com/photo-1544005313-94ddf0286df2"}
+            <img src={image ? URL.createObjectURL(image) : user?.image || "https://static.vecteezy.com/system/resources/thumbnails/013/360/247/small_2x/default-avatar-photo-icon-social-media-profile-sign-symbol-vector.jpg"}
             className=' h-9 md:h-14 w-9 md:w-14 rounded-full mx-auto ' alt="" />
             <input type="file" id='image' accept='image/*' hidden onChange={(e) => setImage(e.target.files[0])} />
 
