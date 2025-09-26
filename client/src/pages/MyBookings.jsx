@@ -1,32 +1,57 @@
 import React, {useEffect, useState} from 'react'
 import Title from '../Components/Title'
-import { assets, dummyMyBookingsData } from '../assets/assets';
+import { assets } from '../assets/assets';
+import { useAppContext } from '../hooks/useAppContext';
+import toast from 'react-hot-toast';
+import { motion } from 'motion/react';
 
 const MyBookings = () => {
 
+  const {currency, axios, user} = useAppContext();
+
   const [bookings,setBookings] = useState([]);
-  const currency = import.meta.env.VITE_CURRENCY
 
   const fetchMyBookings = async() => {
-    setBookings(dummyMyBookingsData)
+    // setBookings(dummyMyBookingsData)
+    try {
+
+      const {data} = await axios.get('/api/bookings/user')
+      if(data.success){
+        setBookings(data.bookings)
+      }
+      else{
+        toast.error(data.message)
+      }
+      
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
 
   // so whenever we load this component this useeffect , it will call this fetchMyBookings function ,
   //  and get the data from the dummyBookingData and store it in the booking state
   useEffect(() => {
-    fetchMyBookings()
-  },[])
+    user && fetchMyBookings()        //Whnever user is loggin then only it will call this function
+  },[user])    // Whenever user changes it will call this useEffect
  
   
   return (
-    <div className=' px-6 md:px-16 lg:px-24 xl:px-32 2xl:px-48 mt-16 text-sm max-w-7xl ' >
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+     className=' px-6 md:px-16 lg:px-24 xl:px-32 2xl:px-48 mt-16 text-sm max-w-7xl ' >
 
           <Title title="My Bookings" subTitle="View and manage your bookings" align="left" />
         
         <div>
           {bookings.map((booking,index) => (
-            <div key={booking.id} className=' grid grid-cols-1 md:grid-cols-4 gap-6 p-6 border border-border rounded-lg mt-5 first:mt-12 ' >
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4,  delay: index * 0.1 }}
+              key={booking._id} className=' grid grid-cols-1 md:grid-cols-4 gap-6 p-6 border border-border rounded-lg mt-5 first:mt-12 ' >
 
               {/* Car Details */}
               <div className=' md:col-span-1 '>
@@ -75,10 +100,10 @@ const MyBookings = () => {
                 </div>
               </div>
 
-            </div>
+            </motion.div>
           ))}
         </div>
-    </div>
+    </motion.div>
   )
 }
 

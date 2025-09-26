@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import Navbar from './Components/Navbar'
 import { Route, Routes,useLocation } from 'react-router-dom';
 import Home from './pages/Home';
@@ -12,22 +11,27 @@ import AddCar from './pages/Owner/AddCar';
 import ManageCar from './pages/Owner/ManageCar';
 import ManageBooking from './pages/Owner/ManageBooking';
 import Login from './Components/Login';
+import { Toaster } from 'react-hot-toast';
+import { useAppContext } from './hooks/useAppContext';
 
 const App = () => {
 
   {/* in the Navbar here we should pass the props as we are destructureing the props in the Navbar -> setShowLogin so we have to pass it here */}
-  const [showLogin, setShowLogin] = useState(false);
+  // const [showLogin, setShowLogin] = useState(false);
+  // Now we remove above line and use UseAppContext
+  const {showLogin} = useAppContext();
   const isOwnerPath = useLocation().pathname.startsWith('/owner');
   
   return (
     <>
+      <Toaster />
       {/* This login form will be displayed whenever this setShow Login is asked So, */}
 
-      {showLogin && <Login setShowLogin={setShowLogin} />}
+      {showLogin && <Login />}
 
     {/* this Navbar wew have mounted here at the top so that we want this in every page , but we need to hide it whenever it is in the owners dashboard so for that
     -> we will identify the path and according to that we will hide the Navbar */}
-      { !isOwnerPath && <Navbar setShowLogin={setShowLogin}/>}
+      { !isOwnerPath && <Navbar />}
 
       <Routes>
         <Route path='/' element={<Home />} />

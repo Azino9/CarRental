@@ -1,18 +1,44 @@
 import React, { useState } from 'react'
-import { assets, dummyUserData, ownerMenuLinks } from '../../assets/assets'
+import { assets, ownerMenuLinks } from '../../assets/assets'
 import { NavLink, useLocation } from 'react-router-dom';
+import { useAppContext } from '../../hooks/useAppContext';
+import { toast } from 'react-hot-toast';
 
 const Sidebar = () => {
 
-    const user = dummyUserData;
+    const {user,axios, fetchUser }= useAppContext() ;
     const location = useLocation();
     const [image,setImage] = useState('');
 
 
     // We Created the function using which we can change the users profile pic from the dashboard
     const updateImage = async() => {
-        user.image = URL.createObjectURL(image);
-        setImage('');
+        try {
+            if (!image) {
+                toast.error("Please select an image first");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', image);
+            
+            const {data} = await axios.post('/api/owner/update-image', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            
+            if(data.success){
+                await fetchUser();
+                toast.success("Profile image updated successfully!");
+                setImage('');
+            } else {
+                toast.error(data.message || "Failed to update image");
+            }
+        } catch (error) {
+            console.error("Image update error:", error);
+            toast.error(error.response?.data?.message || error.message || "Failed to update image");
+        }
     }
 
   return (
@@ -21,7 +47,7 @@ const Sidebar = () => {
 
         <div className=' group relative ' >
         <label htmlFor="image">
-            <img src={image ? URL.createObjectURL(image) : user.image || "http://images.unsplash.com/photo-1544005313-94ddf0286df2"}
+            <img src={image ? URL.createObjectURL(image) : user?.image || "https://images.unsplash.com/photo-1544005313-94ddf0286df2"}
             className=' h-9 md:h-14 w-9 md:w-14 rounded-full mx-auto ' alt="" />
             <input type="file" id='image' accept='image/*' hidden onChange={(e) => setImage(e.target.files[0])} />
 
@@ -33,7 +59,11 @@ const Sidebar = () => {
 
         </div>
         {image && (
-            <button className='absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer' onClick={updateImage} >
+            <button 
+                className='absolute top-0 right-0 flex p-2 gap-1 bg-primary/10 text-primary cursor-pointer hover:bg-primary/20 transition-colors' 
+                onClick={updateImage}
+                disabled={!user}
+            >
                 Save <img src={assets.check_icon} width={13} alt="" /> 
             </button>
         )}

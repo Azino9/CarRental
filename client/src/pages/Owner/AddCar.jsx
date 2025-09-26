@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import OTitle from '../../Components/Owner/OTitle';
 import { assets } from '../../assets/assets';
+import { useAppContext } from '../../hooks/useAppContext';
+import toast from 'react-hot-toast';
 
 const AddCar = () => {
 
-
-  const currency = import.meta.env.VITE_CURRENCY
+  const {axios, currency} = useAppContext();
 
   const [image,setImage] = useState(null);
   const [car,setCar] = useState({
@@ -20,8 +21,59 @@ const AddCar = () => {
     location:'',
   })
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitHandler = async(e) =>{
     e.preventDefault();
+    if(isLoading) return null // null means its already adding the data thats why its in loading state
+    
+    // Validate required fields
+    if (!image) {
+      toast.error("Please select a car image");
+      return;
+    }
+    
+    if (!car.brand || !car.model || !car.category || !car.transmission || !car.fuel_type || !car.location) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    
+    setIsLoading(true)
+    try {
+      const formData = new FormData()
+      formData.append('image',image)
+      formData.append('carData', JSON.stringify(car))
+
+      const {data} = await axios.post('/api/owner/add-car',formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      
+      if(data.success){
+        toast.success(data.message)
+        setImage(null)
+        setCar({
+          brand:'',
+          model:'',
+          year:0,
+          pricePerDay:0,
+          category:'',
+          transmission:'',
+          fuel_type:'',
+          seating_capacity:0,
+          location:'',
+        })
+      }
+      else{
+        toast.error(data.message);
+      }
+      
+    } catch (error) {
+      toast.error(error.message);
+    } finally{
+      setIsLoading(false);
+    }
   }
 
 
@@ -148,7 +200,7 @@ const AddCar = () => {
         <button className=' flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary
         text-white rounded-md font-medium w-max cursor-pointer ' >
           <img src={assets.tick_icon} alt="" />
-          List Your Car
+          { isLoading ? 'Listing...' : 'List Your Car'}
         </button>
 
        </form>

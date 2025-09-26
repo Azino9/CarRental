@@ -1,8 +1,18 @@
 import React from 'react'
+import { useAppContext } from '../hooks/useAppContext';
+import { Navigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 //  Mount this  in app.jsx before we added that Routes and below  fragment tag 
 {/* Now be destructure the prop , the setter function setShowLogin */}
-const Login = ({setShowLogin}) => {
+const Login = () => {
+
+    // We removed the setShowLogin from the props above and now we are calling it from the context
+    //  so we have to import the useAppContext and call it here
+    //  Now we also need axios and setToken from the context so that we can set the token after login or register
+    //  And the functionality we added like click anywhere outside the form it will close the form
+    //  So for that we also need setShowLogin from the context
+    const {setShowLogin, axios, setToken, navigate } = useAppContext();
 
     const [state, setState] = React.useState("login");
     const [name, setName] = React.useState("");
@@ -11,8 +21,31 @@ const Login = ({setShowLogin}) => {
 
 
     const onsubmitHandler = async(e) => {
-        e.preventDefault();
+        try {
+            e.preventDefault();
+
+            const {data} = state === "login" 
+                ? await axios.post(`/api/user/login`, {email, password})
+                : await axios.post(`/api/user/register`, {name, email, password});
+
+            if(data.success){
+                navigate('/');
+                setToken(data.token);
+                localStorage.setItem('token', data.token);
+                setShowLogin(false);
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            // Check if error response exists and has data with message
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error(error.message || "Something went wrong");
+            }
+        }
     }
+
   return (
     // it will used full full height and width and be fixed  be used -> flex , itemcenter and textesm so that the contents inbside the below div be in center
     // bg black with some opacity -> so it will add a dark layer in entire page

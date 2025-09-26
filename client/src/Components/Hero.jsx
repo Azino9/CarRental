@@ -1,17 +1,38 @@
 import React, { useState } from 'react'
 import { assets, cityList } from '../assets/assets'
+import { useAppContext } from '../hooks/useAppContext'
+import {motion} from 'motion/react'
 
 const Hero = () => {
+
+    const {pickupDate,setPickupDate, returnDate, setReturnDate, navigate} = useAppContext();
      
     //  So indiee the select option the text we have called please select location , that text should change according to the pickup location seleted in the browser
     // So for that we will use useState hook to manage the state of the selected location
     const [pickupLocation, setPickupLocation] = useState('')
+
+    const handleSearch = (e) => {
+         e.preventDefault()
+        navigate('/cars?pickupLocation='+ pickupLocation + '&pickupDate=' + pickupDate + '&returnDate=' + returnDate)
+    }
+
   return (
-    <div className=' h-screen flex flex-col items-center justify-center gap-14 bg-light text-center ' >
+    <motion.div
+    initial={{opacity: 0}}
+    animate={{opacity: 1}}
+    transition={{duration: 0.8}}
+     className=' h-screen flex flex-col items-center justify-center gap-14 bg-light text-center ' >
 
-        <h1 className=' text-4xl md:text-5xl font-semibold ' > Luxury cars on Rent </h1>
+        <motion.h1 initial={{opacity: 0, y: 50}} 
+        animate={{opacity: 1, y: 0}} 
+        transition={{duration: 0.8, delay: 0.2}}
+         className=' text-4xl md:text-5xl font-semibold ' > Luxury cars on Rent </motion.h1>
 
-        <form className=' flex flex-col md:flex-row  items-start md:items-center 
+        <motion.form
+        initial={{scale:0.95, opacity: 0, y: 50}}
+        animate={{scale: 1, opacity: 1, y: 1}}  // Scale 1 means so it comes to its original size
+        transition={{duration: 0.6, delay: 0.4}}
+         onSubmit={handleSearch} className=' flex flex-col md:flex-row  items-start md:items-center 
         justify-between p-6 rounded-lg md:rounded-full w-full max-w-80 md:max-w-200 
         bg-white shadow-[0px_8px_20px_rgba(0,0,0,0.1)] ' >
 
@@ -34,27 +55,40 @@ const Hero = () => {
 
                 <div className=' flex flex-col items-start gap-2 ' >
                     <label htmlFor="Pickup-date"> Pick-up Date </label>
-                    <input type="date" id='Pickup-date' min={new Date().toISOString().split('T')[0]} className=' text-sm text-gray-500 ' required />
+                    <input value={pickupDate} onChange={(e)=>setPickupDate(e.target.value)} 
+                    type="date" id='Pickup-date' min={new Date().toISOString().split('T')[0]} 
+                    className=' text-sm text-gray-500 ' required />
                 </div>
 
                 <div className=' flex flex-col items-start gap-2 ' >
                     <label htmlFor="Return-date">Return Date</label>
-                    <input type="date" id='Return-date' className=' text-sm text-gray-500 ' required />
+                    <input value={returnDate} onChange={(e)=>setReturnDate(e.target.value)} 
+                    type="date" id='Return-date' min={new Date().toISOString().split("T")[0]}
+                    className=' text-sm text-gray-500 ' required />
                 </div>
 
             </div>
-                <button className=' flex items-center justify-center gap-1 px-9 py-3
-                max-sm:mt-4 bg-primary hover:bg-primary-dull text-white rounded-full cursor-pointer ' >
+                <motion.button 
+                   whileHover={{scale: 1.05}}
+                   whileTap={{scale: 0.95}}
+                   transition={{type: 'spring', stiffness: 300}}
+                    type='submit'
+                    className=' flex items-center justify-center gap-1 px-9 py-3
+                   max-sm:mt-4 bg-primary hover:bg-primary-dull text-white rounded-full cursor-pointer ' >
+
                     <img src={assets.search_icon} alt="search" className=' brightness-300 ' />
                      Search
-                </button>
+                </motion.button>
 
+        </motion.form>
 
-        </form>
+        <motion.img
+         initial={{y: 100, opacity: 0}}
+         animate={{y: 0, opacity: 1}} // opacity 1 means it comes to its original position
+         transition={{duration: 0.8, delay: 0.6}}
+         src={assets.main_car} alt="car" className=' max-h-74 ' />
 
-        <img src={assets.main_car} alt="car" className=' max-h-74 ' />
-
-    </div>
+    </motion.div>
   )
 }
 

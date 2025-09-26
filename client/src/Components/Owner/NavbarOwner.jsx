@@ -1,10 +1,11 @@
 import React from 'react'
-import { assets,  dummyUserData } from '../../assets/assets'
+import { assets } from '../../assets/assets'
 import { Link } from 'react-router-dom'
+import { useAppContext } from '../../hooks/useAppContext';
 
 const NavbarOwner = () => {
     
-    const user = dummyUserData;
+    const {user} = useAppContext();
 
   return (
     <div className=' flex items-center justify-between px-6 md:px-10 py-4
@@ -14,7 +15,7 @@ const NavbarOwner = () => {
         <img src={assets.logo} alt="Logo" className=' h-7'  />
         </Link>
 
-        <p> Welcome, {user.name || 'User'} ! </p>
+        <p> Welcome, {user?.name || 'User'}! </p>
 
     </div>
   )
